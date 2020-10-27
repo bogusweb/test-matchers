@@ -1,31 +1,24 @@
-import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { MyInputComponent } from './my-input/my-input.component';
+import { createHostFactory, SpectatorHost } from '@ngneat/spectator/jest';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-    }).compileComponents();
+  let host: SpectatorHost<MyInputComponent>;
+  const createHost = createHostFactory({
+    component: MyInputComponent
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('matchers', () => {
+    host = createHost(`<matchers-my-input></matchers-my-input>`);
+    const $input = host.queryHost(`input`) as HTMLInputElement;
+    $input.focus();
+    expect($input).toBeFocused();
   });
 
-  it(`should have as title 'test'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('test');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to test!'
-    );
+  it('matchers1', () => {
+    host = createHost(`<matchers-my-input></matchers-my-input>`);
+    const $input = host.queryHost<HTMLInputElement>(`input`);
+    $input.focus();
+    expect($input).toBeFocused();
   });
 });
